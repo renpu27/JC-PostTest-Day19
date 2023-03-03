@@ -1,54 +1,81 @@
 package pages;
 
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.remote.DesiredCapabilities;
+
+import io.appium.java_client.MobileElement;
 import io.appium.java_client.android.AndroidDriver;
-import java.net.MalformedURLException;
-import java.net.URL;
+import io.appium.java_client.pagefactory.AndroidFindBy;
+import io.appium.java_client.pagefactory.AppiumFieldDecorator;
+import org.openqa.selenium.support.PageFactory;
 
 public class Calculator {
-    public static void main(String[] args) throws MalformedURLException, InterruptedException {
-        DesiredCapabilities dc = new DesiredCapabilities();
-        dc.setCapability("devicename", "POCO X3 Pro");
-        dc.setCapability("udid", "c09ea964");
-        dc.setCapability("platformName", "Android");
-        dc.setCapability("platformVersion", "12");
-        dc.setCapability("appPackage", "com.google.android.calculator");
-        dc.setCapability("appActivity", "com.android.calculator2.Calculator");
+    public AndroidDriver<MobileElement> driver;
+    public Calculator(AndroidDriver<MobileElement> driver) {
+        this.driver = driver;
+        PageFactory.initElements(new AppiumFieldDecorator(driver), this);
+    }
 
-        URL url = new URL("https://127.0.0.1:4723/wd/hub");
-        AndroidDriver driver = new AndroidDriver(url, dc);
-        Thread.sleep(5000);
+    @AndroidFindBy(id = "com.google.android.calculator:id/digit_1")
+    private MobileElement btnSatu;
 
-        WebElement satu = driver.findElement(By.id("com.google.android.calculator:id/digit_1"));
-        WebElement dua = driver.findElement(By.id("com.google.android.calculator:id/digit_2"));
-        WebElement tiga = driver.findElement(By.id("com.google.android.calculator:id/digit_3"));
-        WebElement empat = driver.findElement(By.id("com.google.android.calculator:id/digit_4"));
-        WebElement tambah = driver.findElement(By.id("com.google.android.calculator:id/op_add"));
-        WebElement kali = driver.findElement(By.id("com.google.android.calculator:id/op_mul"));
-        WebElement samaDengan = driver.findElement(By.id("com.google.android.calculator:id/eq"));
-        WebElement hasil = driver.findElement(By.id("com.google.android.calculator:id/result_preview"));
-        WebElement hapus = driver.findElement(By.id("com.google.android.calculator:id/clr"));
+    @AndroidFindBy(id = "com.google.android.calculator:id/digit_2")
+    private MobileElement btnDua;
 
-        public String getTxtHasil(){
-            return hasil.getText();
-        }
+    @AndroidFindBy(id = "com.google.android.calculator:id/digit_3")
+    private MobileElement btnTiga;
 
-        public void add() {
-            hapus.click();
-            satu.click();
-            tambah.click();
-            dua.click();
-            samaDengan.click();
-        }
+    @AndroidFindBy(id = "com.google.android.calculator:id/digit_4")
+    private MobileElement btnEmpat;
 
-        public void mul() {
-            hapus.click();
-            tiga.click();
-            kali.click();
-            empat.click();
-            samaDengan.click();
-        }
+    @AndroidFindBy(id = "com.google.android.calculator:id/op_add")
+    private MobileElement btnTambah;
+
+    @AndroidFindBy(id = "com.google.android.calculator:id/op_sub")
+    private MobileElement btnKurang;
+
+    @AndroidFindBy(id = "com.google.android.calculator:id/op_mul")
+    private MobileElement btnKali;
+
+    @AndroidFindBy(id = "com.google.android.calculator:id/op_div")
+    private MobileElement btnBagi;
+
+    @AndroidFindBy(id = "com.google.android.calculator:id/eq")
+    private MobileElement btnSamaDengan;
+
+    @AndroidFindBy(id = "com.google.android.calculator:id/result_final")
+    private MobileElement hasil;
+
+    //Method
+    public void calcAdd() {
+        btnSatu.click();
+        btnTambah.click();
+        btnDua.click();
+        btnSamaDengan.click();
+    }
+
+    public void calcSub() {
+        btnSatu.click();
+        btnKurang.click();
+        btnDua.click();
+        btnSamaDengan.click();
+    }
+
+    public void calcMul(){
+        btnTiga.click();
+        btnKali.click();
+        btnEmpat.click();
+        btnSamaDengan.click();
+    }
+
+    public void calcDiv(){
+        btnTiga.click();
+        btnBagi.click();
+        btnEmpat.click();
+        btnSamaDengan.click();
+    }
+
+
+    public String getTxtResult() {
+        return hasil.getText();
     }
 }
+
